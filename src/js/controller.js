@@ -7,7 +7,9 @@ const recipeContainer = document.querySelector('.recipe');
 const timeout = function (s) {
 	return new Promise(function (_, reject) {
 		setTimeout(function () {
-			reject(new Error(`Request took too long! Timeout after ${s} second`));
+			reject(
+				new Error(`Request took too long! Timeout after ${s} second`)
+			);
 		}, s * 1000);
 	});
 };
@@ -34,7 +36,6 @@ const showRecipe = async function () {
 	try {
 		const id = window.location.hash.slice(1);
 		if (!id) return;
-		// console.log(id);
 
 		// 1) Loading Recipe
 		renderSpinner(recipeContainer);
@@ -42,8 +43,6 @@ const showRecipe = async function () {
 			`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
 		);
 		const data = await res.json();
-		// console.log(res);
-		// console.log(data);
 
 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 
@@ -77,8 +76,8 @@ const showRecipe = async function () {
               <use href="${icons}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
-							recipe.cookingTime
-						}</span>
+				recipe.cookingTime
+			}</span>
             <span class="recipe__info-text">minutes</span>
           </div>
           <div class="recipe__info">
@@ -86,8 +85,8 @@ const showRecipe = async function () {
               <use href="${icons}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${
-							recipe.servings
-						}</span>
+				recipe.servings
+			}</span>
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
@@ -156,8 +155,8 @@ const showRecipe = async function () {
           <p class="recipe__directions-text">
             This recipe was carefully designed and tested by
             <span class="recipe__publisher">${
-							recipe.publisher
-						}</span>. Please check out
+				recipe.publisher
+			}</span>. Please check out
             directions at their website.
           </p>
           <a
