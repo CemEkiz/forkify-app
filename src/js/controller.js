@@ -2,8 +2,14 @@ import icons from '../img/icons.svg';
 import 'core-js';
 import 'regenerator-runtime';
 
+// HTML Elements
 const recipeContainer = document.querySelector('.recipe');
 
+/* NOTE:
+C'est un timer qui va s'utiliser comme cela : timeout(5) pour 5 secondes d'attentes par exemple
+Si l'attente est d'au moins 5 second, alors la Promise est rejected et le message d'erreur s'affiche.
+> console.log(timeout(5))
+*/
 const timeout = function (s) {
 	return new Promise(function (_, reject) {
 		setTimeout(function () {
@@ -19,6 +25,9 @@ const timeout = function (s) {
 
 //////////////////////////////////////////////////////////////////////////////
 
+/* NOTE:
+- Cette fonction est ré-utilisable, elle prend en paramètre le container ou le "markup" va s'afficher
+*/
 const renderSpinner = function (parentEl) {
 	const markup = `
 	<div class="spinner">
@@ -34,18 +43,46 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
 	try {
-		const id = window.location.hash.slice(1);
-		if (!id) return;
+		/* NOTE: */
+		// const id = window.location.hash.slice(1);
+		// if (!id) return;
 
-		// 1) Loading Recipe
+		// 1. Loading Recipe
+		/* NOTE:
+    - renderSpinner : le temps que l'api load puis render, un spinner animé sera affiché
+    - const res : cela va fetch des données en arrière-plan, puis retourner une réponse
+    - Les données sont stockés dans /recipes/id, pour chaque "id" il y a un object différent dans l'API
+    > console.log(res)
+    - const data : depuis la réponse retournée on va prendre et stocker les données  fetch grâce à la 
+    method .json(), la variable "data" contiendra un object avec les données correspondant à l'id de l'API
+    > console.log(data) 
+    */
 		renderSpinner(recipeContainer);
 		const res = await fetch(
-			`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
+			`https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
 		);
 		const data = await res.json();
 
+		/* NOTE:
+    Si le fetch api a un identifiant incorrect par exemple, alors un message d'erreur sera retourné
+    - res : il contiendra "ok: false" pour informer qu'il y a une erreur
+    - data : il contiendra "message: message d'erreur" pour informer sur la nature de l'erreur
+    > On peut alors s'en servir pour créer une erreur et l'utiliser plus tard dans "catch" :
+    - Si "res.ok" est falsy alors "throw new Error()"
+    - Entre les () on peut écrire le message que l'on souhaite, ici on va retourner "data.message" et "res.status"
+
+    */
 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 
+		/* NOTE:
+    - Ici le but est de récupérer les propriétés des data et de les renommer "source_url" > sourceUrl, etc.
+    - let { recipe } = data.data : on destructure recipe qui est contenu dans "data.data.recipe", maintenant
+    "recipe" a été décomposé et est accessible directement via "console.log(recipe)" par exemple.
+    - Tip : on pense à destructurer quand on se retrouve dans ce type de situation : "let recipe = data.data.recipe"
+    (la propriété "recipe" est des 2 côtés)
+    - Il reste qu'à renommer, par exemple : "sourceUrl: recipe.source_url", etc. 
+    > console.log(recipe) avant et après le renommage
+    */
 		let { recipe } = data.data;
 		recipe = {
 			id: recipe.id,
@@ -57,9 +94,16 @@ const showRecipe = async function () {
 			cookingTime: recipe.cooking_time,
 			ingredients: recipe.ingredients,
 		};
-		console.log(recipe);
 
-		// 2) Rendering recipe
+		// 2. Rendering the recipe
+		/* NOTE: 
+    - Maintenant que nous avons chargé les données de l'API et renommé les propriétés, on peut les manipuler
+    - On crée donc une variable "markup" dans laquelle on va stocker un template literal du HTML
+    à render, on peut leur donner des valeurs dynamiques telles que ${recipe.image} etc.
+    - On va également importer les "icons" et utiliser la méthode classique du <svg> avec <use>
+    - Pour la liste des ingrédients on va loop (avec .map car on veut retourner qqch) dans recipe.ingredients et afficher
+    une <li> à chaque itération avec ses "quantity", "unit" et "decription" correspondant
+    */
 		const markup = `
 		<figure class="recipe__fig">
           <img src="${recipe.image}" alt="${
@@ -134,20 +178,6 @@ const showRecipe = async function () {
 				`;
 				})
 				.join('')}
-		  
-
-
-            <li class="recipe__ingredient">
-              <svg class="recipe__icon">
-                <use href="${icons}#icon-check"></use>
-              </svg>
-              <div class="recipe__quantity">0.5</div>
-              <div class="recipe__description">
-                <span class="recipe__unit">cup</span>
-                ricotta cheese
-              </div>
-            </li>
-          </ul>
         </div>
 
         <div class="recipe__directions">
@@ -171,8 +201,13 @@ const showRecipe = async function () {
           </a>
         </div>
 		`;
+
 		recipeContainer.insertAdjacentHTML('afterbegin', markup);
 	} catch (err) {
+		/* NOTE:
+    Si une erreur a été capturé avec "throw new Error", alors on l'affichera dans une alerte
+    > Essayer avec un faux id lors du fetch api pour voir si l'erreur s'affiche correctement
+    */
 		alert(err);
 	}
 };
@@ -181,4 +216,4 @@ showRecipe();
 
 // window.addEventListener('hashchange', showRecipe);
 // window.addEventListener('load', showRecipe);
-['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, showRecipe));
+// ['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, showRecipe));
