@@ -1,7 +1,7 @@
 {
-	"name": "forkify-app",
+	"name": "forkify",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Recipe application",
 	"default": "index.html",
 	"browserslist": "> 1%, last 2 versions, not dead, not ie 11",
 	"scripts": {
@@ -13,7 +13,7 @@
 		"url": "git+https://github.com/CemEkiz/forkify-app.git"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Cem",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/CemEkiz/forkify-app/issues"
