@@ -43,12 +43,16 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
 	try {
-		/* NOTE: */
-		// const id = window.location.hash.slice(1);
-		// if (!id) return;
-
-		// 1. Loading Recipe
 		/* NOTE:
+    - window.location = l'url entier
+    - .hash = ce qui se situe après le #
+    - .slice(1) = va récupérer récupérer l'id (hash) sans le # (d'où le "1")
+    */
+		const id = window.location.hash.slice(1);
+		if (!id) return;
+
+		/* NOTE:
+    
     - renderSpinner : le temps que l'api load puis render, un spinner animé sera affiché
     - const res : cela va fetch des données en arrière-plan, puis retourner une réponse
     - Les données sont stockés dans /recipes/id, pour chaque "id" il y a un object différent dans l'API
@@ -57,9 +61,12 @@ const showRecipe = async function () {
     method .json(), la variable "data" contiendra un object avec les données correspondant à l'id de l'API
     > console.log(data) 
     */
+		// 1. Loading Recipe
+
 		renderSpinner(recipeContainer);
+
 		const res = await fetch(
-			`https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
+			`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
 		);
 		const data = await res.json();
 
@@ -102,7 +109,7 @@ const showRecipe = async function () {
     à render, on peut leur donner des valeurs dynamiques telles que ${recipe.image} etc.
     - On va également importer les "icons" et utiliser la méthode classique du <svg> avec <use>
     - Pour la liste des ingrédients on va loop (avec .map car on veut retourner qqch) dans recipe.ingredients et afficher
-    une <li> à chaque itération avec ses "quantity", "unit" et "decription" correspondant
+    une <li> à chaque itération avec ses "quantity", "unit" et "decription" correspondant puis on va .join le tout
     */
 		const markup = `
 		<figure class="recipe__fig">
@@ -202,6 +209,8 @@ const showRecipe = async function () {
         </div>
 		`;
 
+		console.log('hey');
+		recipeContainer.innerHTML = '';
 		recipeContainer.insertAdjacentHTML('afterbegin', markup);
 	} catch (err) {
 		/* NOTE:
@@ -212,8 +221,19 @@ const showRecipe = async function () {
 	}
 };
 
-showRecipe();
+// showRecipe();
 
+/* NOTE:
+- hashchange event : il est déclenché lorsque l'identificateur de fragment de l'URL a changé 
+(la partie de l'URL qui suit le symbole #, y compris le symbole # lui-même).
+- load event : il est déclenché lorsque la page et toutes ses ressources dépendantes 
+(telles que des feuilles de style et des images) sont complètement chargées
+- Si l'utilisateur rentre l'URL qui contient déjà le hash, alors il faut listen l'event load
+- Si l'utilisateur est sur le site et qu'il recherche ou clique et que l'url et le hash change
+alors il faut listen le hashchange event
+- Grâce à forEach on peut déclencher la même fonction pour 2 events différents ou tout simplement
+créer 2 lignes séparées comme ci-dessous.
+*/
 // window.addEventListener('hashchange', showRecipe);
 // window.addEventListener('load', showRecipe);
-// ['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, showRecipe));
+['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, showRecipe));
