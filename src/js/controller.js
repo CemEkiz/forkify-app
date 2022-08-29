@@ -102,7 +102,6 @@ const showRecipe = async function () {
 			ingredients: recipe.ingredients,
 		};
 
-		// 2. Rendering the recipe
 		/* NOTE: 
     - Maintenant que nous avons chargé les données de l'API et renommé les propriétés, on peut les manipuler
     - On crée donc une variable "markup" dans laquelle on va stocker un template literal du HTML
@@ -111,6 +110,7 @@ const showRecipe = async function () {
     - Pour la liste des ingrédients on va loop (avec .map car on veut retourner qqch) dans recipe.ingredients et afficher
     une <li> à chaque itération avec ses "quantity", "unit" et "decription" correspondant puis on va .join le tout
     */
+		// 2. Rendering the recipe
 		const markup = `
 		<figure class="recipe__fig">
           <img src="${recipe.image}" alt="${
@@ -209,7 +209,6 @@ const showRecipe = async function () {
         </div>
 		`;
 
-		console.log('hey');
 		recipeContainer.innerHTML = '';
 		recipeContainer.insertAdjacentHTML('afterbegin', markup);
 	} catch (err) {
