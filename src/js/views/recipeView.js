@@ -65,6 +65,7 @@ class RecipeView {
 		this.#parentElement.innerHTML = '';
 	}
 
+	// Publisher
 	addHandlerRender(handler) {
 		['hashchange', 'load'].forEach((ev) =>
 			window.addEventListener(ev, handler)

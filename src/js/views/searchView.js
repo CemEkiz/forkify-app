@@ -11,6 +11,7 @@ class SearchView {
 		this.#parentEl.querySelector('.search__field').value = '';
 	}
 
+	// Publisher
 	addHandlerSearch(handler) {
 		this.#parentEl.addEventListener('submit', function (e) {
 			e.preventDefault();
