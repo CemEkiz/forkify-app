@@ -2,6 +2,7 @@ import * as model from './model';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import resultsView from './views/resultsView';
+import paginationView from './views/paginationView';
 import 'core-js';
 import 'regenerator-runtime';
 
@@ -44,7 +45,10 @@ const controlSearchResults = async function () {
 
 		// 3. Render results
 		// console.log(model.state.search.results);
-		resultsView.render(model.getSearchResultsPage(1));
+		resultsView.render(model.getSearchResultsPage(6));
+
+		// 4. Render initial pagination buttons
+		paginationView.render(model.state.search);
 	} catch (err) {
 		console.log(err);
 	}
