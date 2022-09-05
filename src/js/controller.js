@@ -5,10 +5,6 @@ import resultsView from './views/resultsView';
 import 'core-js';
 import 'regenerator-runtime';
 
-if (module.hot) {
-	module.hot.accept();
-}
-
 // API
 // https://forkify-api.herokuapp.com/v2
 
