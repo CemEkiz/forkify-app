@@ -11,7 +11,7 @@ import 'regenerator-runtime';
 
 //////////////////////////////////////////////////////////////////////////////
 
-const controlRecipes = async function () {
+const handleRecipes = async function () {
 	try {
 		// Get the id from the URL hash
 		const id = window.location.hash.slice(1);
@@ -34,7 +34,7 @@ const controlRecipes = async function () {
 	}
 };
 
-const controlSearchResults = async function () {
+const handleSearchResults = async function () {
 	try {
 		// Render a spinner animation during loading
 		resultsView.renderSpinner();
@@ -57,7 +57,7 @@ const controlSearchResults = async function () {
 	}
 };
 
-const controlPagination = function (goToPage) {
+const handlePagination = function (goToPage) {
 	// 3. Render NEW results
 	resultsView.render(model.getSearchResultsPage(goToPage));
 
@@ -65,7 +65,7 @@ const controlPagination = function (goToPage) {
 	paginationView.render(model.state.search);
 };
 
-const controlServings = function (newServings) {
+const handleServings = function (newServings) {
 	// Update the recipe servings (in state)
 	model.updateServings(newServings);
 
@@ -76,10 +76,10 @@ const controlServings = function (newServings) {
 
 // Subscribers
 const init = function () {
-	recipeView.addHandlerRender(controlRecipes);
-	recipeView.addHandlerUpdateServings(controlServings);
-	searchView.addHandlerSearch(controlSearchResults);
-	paginationView.addHandlerClick(controlPagination);
+	recipeView.addHandlerRender(handleRecipes);
+	recipeView.addHandlerUpdateServings(handleServings);
+	searchView.addHandlerSearch(handleSearchResults);
+	paginationView.addHandlerClick(handlePagination);
 };
 
 init();
