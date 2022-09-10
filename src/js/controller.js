@@ -48,7 +48,7 @@ const handleSearchResults = async function () {
 
 		// 3. Render results
 		// console.log(model.state.search.results);
-		resultsView.render(model.getSearchResultsPage(4));
+		resultsView.render(model.getSearchResultsPage());
 
 		// 4. Render initial pagination buttons
 		paginationView.render(model.state.search);
