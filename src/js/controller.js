@@ -74,10 +74,23 @@ const handleServings = function (newServings) {
 	recipeView.update(model.state.recipe);
 };
 
+const handleAddBookmark = function () {
+	if (!model.state.recipe.bookmarked) {
+		// If there is no bookmark, so add bookmark on click
+		model.addBookmark(model.state.recipe);
+	} else {
+		// If there is a bookmark, so delete bookmark on click
+		model.deleteBookmark(model.state.recipe.id);
+	}
+
+	recipeView.update(model.state.recipe);
+};
+
 // Subscribers
 const init = function () {
 	recipeView.addHandlerRender(handleRecipes);
 	recipeView.addHandlerUpdateServings(handleServings);
+	recipeView.addHandlerAddBookmark(handleAddBookmark);
 	searchView.addHandlerSearch(handleSearchResults);
 	paginationView.addHandlerClick(handlePagination);
 };
