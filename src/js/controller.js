@@ -91,8 +91,13 @@ const handleAddBookmark = function () {
 	bookmarksView.render(model.state.bookmarks);
 };
 
+const handleBookmarks = function () {
+	bookmarksView.render(model.state.bookmarks);
+};
+
 // Subscribers
 const init = function () {
+	bookmarksView.addHandlerRender(handleBookmarks);
 	recipeView.addHandlerRender(handleRecipes);
 	recipeView.addHandlerUpdateServings(handleServings);
 	recipeView.addHandlerAddBookmark(handleAddBookmark);
