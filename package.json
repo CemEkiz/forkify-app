@@ -1,31 +1,26 @@
 {
-  "name": "forkify",
+  "name": "forkify-app",
   "version": "1.0.0",
-  "description": "Recipe application",
-  "default": "index.html",
-  "browserslist": "> 1%, last 2 versions, not dead, not ie 11",
+  "description": "",
+  "source": "index.html",
   "scripts": {
-    "start": "parcel index.html --no-scope-hoist",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "start": "parcel",
+    "build": "parcel build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CemEkiz/forkify-app.git"
   },
   "keywords": [],
-  "author": "Cem",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/CemEkiz/forkify-app/issues"
   },
   "homepage": "https://github.com/CemEkiz/forkify-app#readme",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.7.0",
-    "parcel": "^2.7.0"
-  },
-  "dependencies": {
-    "core-js": "^3.24.1",
+    "@parcel/transformer-sass": "^2.8.3",
     "fractional": "^1.0.0",
-    "regenerator-runtime": "^0.13.9"
+    "parcel": "^2.8.3"
   }
 }
